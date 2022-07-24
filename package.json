@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@beyonk/async-script-loader": "^2.2.2",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
