@@ -5,7 +5,7 @@
   import Autocomplete from './components/Autocomplete.svelte'
   import Checkbox from './components/Checkbox.svelte'
 
-  let ready = false, start, destination, returnJourney
+  let ready = false, start, destination, returnJourney, route
 
   onMount( async () => {
     Utilities.loadGoogleMapsApi()

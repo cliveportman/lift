@@ -9,6 +9,7 @@
     center = { lat: $journey.start.geometry.location.lat(), lng: $journey.start.geometry.location.lng() }
     ready = true
     createMap()
+    $journey.route = Utilities.createRoute(map, $journey.start, $journey.destination)
   }
 
   let createMap = () => {
@@ -19,8 +20,8 @@
 			  center
       }
     )
-    Utilities.createMarker(map, $journey.start.geometry.location.lat(), $journey.start.geometry.location.lng(), "Journey start")
-    Utilities.createMarker(map, $journey.destination.geometry.location.lat(), $journey.destination.geometry.location.lng(), "Destination")
+    //Utilities.createMarker(map, $journey.start.geometry.location.lat(), $journey.start.geometry.location.lng(), "Journey start")
+    //Utilities.createMarker(map, $journey.destination.geometry.location.lat(), $journey.destination.geometry.location.lng(), "Destination")
   }
 
 </script>

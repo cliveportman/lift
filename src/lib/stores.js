@@ -3,7 +3,7 @@ import loader from '@beyonk/async-script-loader'
 
 export const mapsApiLoaded = writable(false)
 export const mapsApiKey = 'AIzaSyB1avAIKbPYgmPlB7wjE_twtYc3u2OEiMc'
-export const journey = writable({ start: null, destination: null, returnJourney: false })
+export const journey = writable({ start: null, destination: null, returnJourney: false, route: null })
 
 function test () {
   //return !!window.google
@@ -42,6 +42,24 @@ export const Utilities = {
       })
     }
 
+  },
+
+ createRoute: (map, start, destination) => {  
+    let directionsService = new google.maps.DirectionsService()
+    let directionsRenderer = new google.maps.DirectionsRenderer()
+    directionsRenderer.setMap(map)
+    let request = {
+      origin: new google.maps.LatLng(start.geometry.location.lat(), start.geometry.location.lng()),
+      destination:  new google.maps.LatLng(destination.geometry.location.lat(), destination.geometry.location.lng()),
+      travelMode: google.maps.TravelMode['DRIVING']
+    }
+
+    directionsService.route(request, function(response, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(response)
+      }
+    })
+    
   }
 
 }
