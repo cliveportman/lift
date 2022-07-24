@@ -1,105 +1,30 @@
 <script>
 
-  /*
-    * Straight copy of @silintl/svelte-google-places-autocomplete.
-    * Just as a svelte component.
-  */
+  import { mapsApiKey } from "../stores"
+  import Autocomplete from './AutocompleteField.svelte'
 
-  import { createEventDispatcher, onMount } from 'svelte'
-  
-  export let apiKey
-  export let options = undefined
-  export let placeholder = undefined
-  export let value = ''
-  
-  const dispatch = createEventDispatcher()
-  
-  let inputField
-  $: selectedLocationName = value || ''
-  
-  onMount(() => {
-    const autocomplete = new google.maps.places.Autocomplete(inputField, options)
-    
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace()
-      
-      // There are circumstances where the place_changed event fires, but we
-      // were NOT given location data. I only want to propagate the event if we
-      // truly received location data from Google.
-      // See the `Type something, no suggestions, hit Enter` test case.
-      if (hasLocationData(place)) {
-        setSelectedLocation({
-          place: place,
-          text: inputField.value
-        })
-      }
-    })
-    
-    dispatch('ready')
-  })
-  
-  function emptyLocationField() {
-    inputField.value = ''
-    onChange()
+  export let location, label, placeholder
+  let place
+
+  const autocompleteOptions = {
+    fields: ['address_components', 'geometry'],
+    types: []
   }
-  
-  function hasLocationData(place) {
-    const fieldsToLookFor = (options && options.fields) || ['geometry']
-    return place.hasOwnProperty(fieldsToLookFor[0])
+  let onChange = (e) => {
+    location = e.detail.place // e.detail.place.geometry.location.lng())
   }
-  
-  function onChange() {
-    if (inputField.value === '') {
-      setSelectedLocation(null)
-    }
-  }
-  
-  function onKeyDown(event) {
-    const suggestionsAreVisible = document.getElementsByClassName('pac-item').length
-    
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      if (suggestionsAreVisible) {
-        const isSuggestionSelected = document.getElementsByClassName('pac-item-selected').length
-        if (!isSuggestionSelected) {
-          selectFirstSuggestion()
-        }
-      } else if (doesNotMatchSelectedLocation(inputField.value)) {
-        setTimeout(emptyLocationField, 10)
-      }
-    } else if (event.key === 'Escape') {
-      setTimeout(emptyLocationField, 10)
-    }
-    
-    if (suggestionsAreVisible) {
-      if (event.key === 'Enter') {
-        /* When suggestions are visible, don't let an 'Enter' submit a form (since
-         * the user is interacting with the list of suggestions at the time, not
-         * expecting their actions to affect the form as a whole). */
-        event.preventDefault()
-      }
-    }
-  }
-  
-  function selectFirstSuggestion() {
-    // Simulate the 'down arrow' key in order to select the first suggestion:
-    // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
-    const simulatedEvent = new KeyboardEvent(
-      'keydown',
-      { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40 }
-    )
-    inputField.dispatchEvent(simulatedEvent)
-  }
-  
-  function setSelectedLocation(data) {
-    selectedLocationName = (data && data.text) || ''
-    dispatch('place_changed', data)
-  }
-  
-  function doesNotMatchSelectedLocation(value) {
-    return selectedLocationName !== value
-  }
-  </script>
-  
-  <input bind:this={inputField} class={$$props.class} on:change={onChange}
-         on:keydown={onKeyDown} {placeholder} {value} />
-  
+  let onReady = () => {
+    //console.log('Autocomplete ready')
+  } 
+
+</script>
+
+<label for="journey-start" class="block text-medium font-medium text-white">{label}</label>
+<Autocomplete 
+  apiKey="{mapsApiKey}" class="block mt-1 py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-gray-500 focus:border-grey-500 border-warm-gray-300 rounded-md"
+  on:place_changed="{onChange}"
+  {autocompleteOptions}
+  on:ready="{onReady}"
+  {placeholder}
+  value="{place}"
+/>
