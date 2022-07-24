@@ -26,7 +26,7 @@
     </div>
 
     <div class="mt-6">
-      <Autocomplete bind:location="{$journey.destination}" label="destination" placeholder="Enter destination" />
+      <Autocomplete bind:location="{$journey.destination}" label="Destination" placeholder="Enter destination" />
     </div>
 
     <div class="mt-6 relative flex items-start">

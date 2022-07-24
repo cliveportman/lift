@@ -20,7 +20,6 @@ export const Utilities = {
   loadGoogleMapsApi: () => {
 
     // Check the API isn't loaded already to avoid the multiple times on page warning during dev
-    console.log(get(mapsApiLoaded))
     if (!get(mapsApiLoaded)) {
       // Use the async loader to create a callback function, load the API, then remove the callback function (we don't need it)
       const url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1avAIKbPYgmPlB7wjE_twtYc3u2OEiMc&libraries=places&callback=mapsApiReady'      
@@ -29,6 +28,18 @@ export const Utilities = {
         mapsApiLoaded.update( () => true)
         delete window.mapsApiReady
       }
+    }
+
+  },
+
+  createMarker: (map, lat, lng, title) => {
+
+    if (map) {
+      new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map: map,
+        title: title
+      })
     }
 
   }
