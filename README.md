@@ -1,17 +1,17 @@
-#Lift
+# Lift
 
-##Create Svelte project
+## Create Svelte project
 `npm create vite@latest my-app -- --template svelte`
 
-##Install Tailwind
+## Install Tailwind
 
-Install packages
+### Install packages
 `npm install -D tailwindcss@latest postcss@latest autoprefixer@latest`
 
-Create config files
+### Create config files
 `npx tailwindcss init -p`
 
-Tailwind.config.js
+### Tailwind.config.js
 ```
 export default {
   plugins: [],
@@ -25,7 +25,7 @@ export default {
 }
 ```
 
-postcss.config.js
+### postcss.config.js
 ```
 import tailwind from 'tailwindcss'
 import tailwindConfig from './tailwind.config.cjs'
@@ -36,7 +36,7 @@ export default {
 }
 ```
 
-vite.config.js
+### vite.config.js
 ```
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
@@ -51,7 +51,7 @@ export default defineConfig({
 })
 ```
 
-Create `Tailwind.svelte` file in `src` directory:
+### Create `Tailwind.svelte` file in `src` directory:
 ```
 <style global>
 @tailwind utilities;
