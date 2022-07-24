@@ -3,8 +3,7 @@
   import { mapsApiKey } from "../stores"
   import Autocomplete from './AutocompleteField.svelte'
 
-  export let location, label, placeholder
-  let place
+  export let location, label, placeholder, value
 
   const autocompleteOptions = {
     fields: ['address_components', 'geometry'],
@@ -26,5 +25,5 @@
   {autocompleteOptions}
   on:ready="{onReady}"
   {placeholder}
-  value="{place}"
+  value="{value}"
 />

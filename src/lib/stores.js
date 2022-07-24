@@ -3,7 +3,12 @@ import loader from '@beyonk/async-script-loader'
 
 export const mapsApiLoaded = writable(false)
 export const mapsApiKey = 'AIzaSyB1avAIKbPYgmPlB7wjE_twtYc3u2OEiMc'
-export const journey = writable({ start: null, destination: null, returnJourney: false, route: null })
+export const journey = writable({ start: null, destination: null, returnJourney: false })
+
+// Hold the route in a separate store to the journey. The routefinder service is called in response to
+// changes in the journey store, so if we write the route inside the journey store we trigger a loop.
+// Using a separate store avoids this.
+export const route = writable(null)
 
 function test () {
   //return !!window.google
@@ -44,7 +49,7 @@ export const Utilities = {
 
   },
 
- createRoute: (map, start, destination) => {  
+ createRoute: async (map, start, destination) => {  
     let directionsService = new google.maps.DirectionsService()
     let directionsRenderer = new google.maps.DirectionsRenderer()
     directionsRenderer.setMap(map)
@@ -53,13 +58,15 @@ export const Utilities = {
       destination:  new google.maps.LatLng(destination.geometry.location.lat(), destination.geometry.location.lng()),
       travelMode: google.maps.TravelMode['DRIVING']
     }
-
-    directionsService.route(request, function(response, status) {
-      if (status == 'OK') {
-        directionsRenderer.setDirections(response)
+    let route
+    await directionsService.route(request, function(directionsResult, status) {      
+      if (status == 'OK' && directionsResult.routes) {
+        directionsRenderer.setDirections(directionsResult)
+        route = directionsResult.routes[0].legs[0]
       }
     })
-    
+
+    return route 
   }
 
 }

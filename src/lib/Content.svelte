@@ -1,6 +1,6 @@
 <script>
 
-  import { mapsApiLoaded, journey, Utilities } from "./stores"
+  import { mapsApiLoaded, journey, Utilities, route } from "./stores"
 
   let mapContainer, map, ready, center,
   zoom = 8
@@ -9,10 +9,10 @@
     center = { lat: $journey.start.geometry.location.lat(), lng: $journey.start.geometry.location.lng() }
     ready = true
     createMap()
-    $journey.route = Utilities.createRoute(map, $journey.start, $journey.destination)
+    
   }
 
-  let createMap = () => {
+  let createMap = async () => {
 		map = new google.maps.Map(
       mapContainer, 
       {
@@ -20,8 +20,7 @@
 			  center
       }
     )
-    //Utilities.createMarker(map, $journey.start.geometry.location.lat(), $journey.start.geometry.location.lng(), "Journey start")
-    //Utilities.createMarker(map, $journey.destination.geometry.location.lat(), $journey.destination.geometry.location.lng(), "Destination")
+    $route = await Utilities.createRoute(map, $journey.start, $journey.destination)
   }
 
 </script>
