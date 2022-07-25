@@ -1,61 +1,29 @@
 # Lift
 
-## Create Svelte project
-`npm create vite@latest my-app -- --template svelte`
-
-## Install Tailwind
-
-### Install packages
-`npm install -D tailwindcss@latest postcss@latest autoprefixer@latest`
-
-### Create config files
-`npx tailwindcss init -p`
-
-### Tailwind.config.js
+## Install
+Install `degit` if you don't have it.
 ```
-export default {
-  plugins: [],
-    theme: {
-    extend: {},
-  },
-  content: ["./index.html",'./src/**/*.{svelte,js}'],
-  variants: {
-    extend: {},
-  }
-}
+npm install -g degit
 ```
 
-### postcss.config.js
+Download the repo
 ```
-import tailwind from 'tailwindcss'
-import tailwindConfig from './tailwind.config.cjs'
-import autoprefixer from 'autoprefixer'
-
-export default {
-  plugins:[tailwind(tailwindConfig),autoprefixer]
-}
+degit cliveportman/lift
 ```
 
-### vite.config.js
+Install and run
 ```
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-import postcss from './postcss.config.cjs';
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [svelte()],
-  css:{
-    postcss
-  }
-})
+npm install
+npm run dev
 ```
 
-### Create `Tailwind.svelte` file in `src` directory:
-```
-<style global>
-@tailwind utilities;
-@tailwind components;
-@tailwind base;
-</style>
-```
+## Todo
+- Move date fields into re-usable component
+- Move button into re-usable component
+- Testing using Playwright
+- Prevent selection of dates in the past
+- Style autocomplete suggestions dropdown
+- Style calendar widget
+- Add option for places to be selected on the map instead of just text search
+- Add draggable route waypoints
+
