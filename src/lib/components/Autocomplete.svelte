@@ -3,6 +3,7 @@
   import { onMount } from 'svelte'
   import { Utilities, locations } from '../stores';
 
+  // The location is bound to the locations store in the parent
   export let label, location, placeholder
 
   let input, value = ''
@@ -12,16 +13,21 @@
     fields: ["address_components", "geometry", "name"],
   }
 
+  // Mainly for use with hot reload under dev, but this keeps the field populated
   $: if (location) {
     value = Utilities.getFormattedAddress(location.address_components)
   }
   
+  // There's probably a better way to do this, but when the user wants to start again,
+  // we listen for the locations being emptied and reset the value of this field.
   $: if ($locations.start == null && $locations.destination == null) {
     value = ''
   }
 
+  // Wait for the input field to mount before doing anything,
   onMount( async () => {  
     const autocomplete = new google.maps.places.Autocomplete(input, options)
+    // Listen for the 'place_changed' event and return the location.
     autocomplete.addListener('place_changed', function () {
       location = autocomplete.getPlace()
     })

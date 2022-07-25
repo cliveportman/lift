@@ -3,6 +3,8 @@ import loader from '@beyonk/async-script-loader'
 
 export const mapsApiLoaded = writable(false)
 export const mapsApiKey = 'AIzaSyB1avAIKbPYgmPlB7wjE_twtYc3u2OEiMc'
+
+// Holds the locations we use for the map
 export const locations = writable({ start: null, destination: null })
 
 // Hold the route in a separate store to the journey. The routefinder service is called in response to
@@ -11,13 +13,12 @@ export const locations = writable({ start: null, destination: null })
 export const journey = writable({route: null, isReturn: false, depart: null, return: null})
 export const uiStage = writable('locations')
 
-function test () {
-  //return !!window.google
-}
+// function test () {
+// }
 
-function callback () {
-  //console.log('Google Maps API loaded')
-}
+// function callback () {
+//   //console.log('Google Maps API loaded')
+// }
 
 export const Utilities = {
 
@@ -25,6 +26,7 @@ export const Utilities = {
   subscribe: locations.subscribe,
   subscribe: journey.subscribe,
   
+  // Called as soon as the app is mounted
   loadGoogleMapsApi: () => {
 
     // Check the API isn't loaded already to avoid the multiple times on page warning during dev
@@ -40,19 +42,21 @@ export const Utilities = {
 
   },
 
-  createMarker: (map, lat, lng, title) => {
+  // Not actually used
+  // createMarker: (map, lat, lng, title) => {
 
-    if (map) {
-      new google.maps.Marker({
-        position: new google.maps.LatLng(lat, lng),
-        map: map,
-        title: title
-      })
-    }
+  //   if (map) {
+  //     new google.maps.Marker({
+  //       position: new google.maps.LatLng(lat, lng),
+  //       map: map,
+  //       title: title
+  //     })
+  //   }
 
-  },
+  // },
 
- createRoute: async (map, start, destination) => {  
+  // Display a route on the map
+  createRoute: async (map, start, destination) => {  
     let directionsService = new google.maps.DirectionsService()
     let directionsRenderer = new google.maps.DirectionsRenderer()
     directionsRenderer.setMap(map)
@@ -68,10 +72,10 @@ export const Utilities = {
         route = directionsResult.routes[0].legs[0]
       }
     })
-
     return route 
   },
 
+  // Formats an address returned from a Google Place
   getFormattedAddress: (addressComponents) => {
     let address = ''
     addressComponents.forEach(component => {
@@ -99,11 +103,13 @@ export const Utilities = {
 
   },
 
+  // Takes the string returned by a date field and makes it presentable.
   getFormattedDate: (dateToFormat) => {
     let date = new Date(dateToFormat)
     return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
   },
 
+  // Prepares the body of data ready for posting it, then makes a POST request
   makeRequest: () => {
 
     const body = JSON.stringify({

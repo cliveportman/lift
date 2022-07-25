@@ -1,3 +1,8 @@
+/* 
+  The only global CSS we need after Tailwind.
+  Should probably move it elsewhere.
+*/
+
 body {
   margin: 0;
   display: flex;

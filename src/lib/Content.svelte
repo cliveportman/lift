@@ -1,12 +1,11 @@
 <script>
 
-  import { mapsApiLoaded, locations, Utilities, journey, uiStage, mapStyles } from "./stores"
+  import { mapsApiLoaded, locations, Utilities, journey mapStyles } from "./stores"
 
   let mapContainer, map, opacity, center,
-  zoom = 8
+  zoom = 8  
 
-  
-
+  // Only show the map once we have the locations
   $: if (mapContainer && $mapsApiLoaded && $locations.start && $locations.destination) {
     center = { lat: $locations.start.geometry.location.lat(), lng: $locations.start.geometry.location.lng() }
     opacity = 1
