@@ -11,6 +11,7 @@
   "devDependencies": {
     "@beyonk/async-script-loader": "^2.2.2",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "@tailwindcss/forms": "^0.5.2",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "svelte": "^3.49.0",

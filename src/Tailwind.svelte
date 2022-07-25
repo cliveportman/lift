@@ -2,4 +2,5 @@
   @tailwind utilities;
   @tailwind components;
   @tailwind base;
-  </style>
+  @tailwind forms;
+</style>

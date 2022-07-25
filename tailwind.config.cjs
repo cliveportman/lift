@@ -1,5 +1,7 @@
 export default {
-  plugins: [],
+  plugins: [
+    '@tailwindcss/forms'
+  ],
     theme: {
     extend: {},
   },
