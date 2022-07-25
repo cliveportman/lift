@@ -22,6 +22,8 @@ function callback () {
 export const Utilities = {
 
   subscribe: mapsApiLoaded.subscribe,
+  subscribe: locations.subscribe,
+  subscribe: journey.subscribe,
   
   loadGoogleMapsApi: () => {
 
@@ -100,6 +102,32 @@ export const Utilities = {
   getFormattedDate: (dateToFormat) => {
     let date = new Date(dateToFormat)
     return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  },
+
+  makeRequest: () => {
+
+    const body = JSON.stringify({
+      origin: {
+        text: Utilities.getFormattedAddress(get(locations).start.address_components),
+        lat: get(locations).start.geometry.location.lat(),
+        lng: get(locations).start.geometry.location.lng()
+      },
+      destination: {
+        text: Utilities.getFormattedAddress(get(locations).destination.address_components),
+        lat: get(locations).destination.geometry.location.lat(),
+        lng: get(locations).destination.geometry.location.lng()
+      },
+      dates: {
+        departure: get(journey).depart,
+        return: get(journey).return ?? null
+      }
+    })
+    
+    let xhr = new XMLHttpRequest()
+    xhr.open('POST', '/submit')
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.send(body)
+
   }
 
 }

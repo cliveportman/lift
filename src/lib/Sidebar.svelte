@@ -102,9 +102,9 @@
           </div>
         {/if}
 
-        <div class="pb-3 flex justify-between">
+        <div class="pt-1 pb-3 flex justify-between">
           <button type="button" class="border-b border-slate-300 inline-flex items-center px-4 py-2 text-m font-medium rounded-md shadow-sm text-slate-600 bg-slate-100 hover:bg-slate-200" on:click="{ () => { $uiStage = 'schedule'} }">Back</button>
-          <button type="button" class="border-b border-slate-300 inline-flex items-center px-4 py-2 text-m font-medium rounded-md shadow-sm text-white bg-slate-500 hover:bg-slate-600">Confirm</button>
+          <button type="button" class="border-b border-slate-300 inline-flex items-center px-4 py-2 text-m font-medium rounded-md shadow-sm text-white bg-slate-500 hover:bg-slate-600" on:click="{ () => { Utilities.makeRequest() } }">Confirm</button>
         </div>
 
       </div>
