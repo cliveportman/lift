@@ -3,12 +3,13 @@ import loader from '@beyonk/async-script-loader'
 
 export const mapsApiLoaded = writable(false)
 export const mapsApiKey = 'AIzaSyB1avAIKbPYgmPlB7wjE_twtYc3u2OEiMc'
-export const journey = writable({ start: null, destination: null, returnJourney: false })
+export const locations = writable({ start: null, destination: null })
 
 // Hold the route in a separate store to the journey. The routefinder service is called in response to
 // changes in the journey store, so if we write the route inside the journey store we trigger a loop.
 // Using a separate store avoids this.
 export const route = writable(null)
+export const isReturn = writable(false)
 
 function test () {
   //return !!window.google
@@ -67,6 +68,33 @@ export const Utilities = {
     })
 
     return route 
+  },
+
+  getFormattedAddress: (addressComponents) => {
+    let address = ''
+    addressComponents.forEach(component => {
+      const type = component.types[0]
+      switch (type) {
+        case "street_number": {
+          address += component.long_name
+          break
+        }
+        case "route": {
+          address += ' ' + component.long_name
+          break
+        }
+        case "postal_town": {
+          address += ', ' + component.long_name
+          break
+        }
+        case "postal_code": {
+          address += ', ' + component.long_name
+          break
+        }
+      }      
+    })
+    return address
+
   }
 
 }

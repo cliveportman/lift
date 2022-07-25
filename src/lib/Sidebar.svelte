@@ -1,7 +1,7 @@
 <script>
 
   import { onMount } from 'svelte'
-  import { Utilities, mapsApiLoaded, journey, route } from "./stores"
+  import { Utilities, mapsApiLoaded, locations, route, isReturn } from "./stores"
   import Autocomplete from './components/Autocomplete.svelte'
   import Checkbox from './components/Checkbox.svelte'
 
@@ -21,24 +21,36 @@
 
       <h2 class="text-lg font-bold text-white">Add your journey</h2>
 
-        <p class="mt-6 text-base text-teal-50 max-w-3xl">Whether you're looking to Liftshare as a driver or a passenger, listing your journey is the best way to find a match.</p>
+        <p class="mt-6 text-base text-teal-50 max-w-3xl">Whether you're looking to Liftshare as a driver or a passenger, listing your locations is the best way to find a match.</p>
 
         <div class="mt-6">
-          <Autocomplete bind:location="{$journey.start}" label="Journey start" placeholder="Enter starting location" />
+          <Autocomplete bind:location="{$locations.start}" label="locations start" placeholder="Enter starting location" />
         </div>
 
         <div class="mt-6">
-          <Autocomplete bind:location="{$journey.destination}" label="Destination" placeholder="Enter destination" />
+          <Autocomplete bind:location="{$locations.destination}" label="Destination" placeholder="Enter destination" />
         </div>
 
         <div class="mt-6 relative flex items-start">
-          <Checkbox bind:returnJourney="{$journey.returnJourney}" label="This is a return journey (round trip)" />
+          <Checkbox bind:checked="{$isReturn}" label="This is a return journey (round trip)" />
         </div>
 
         {#if $route}
           <div class="mt-6 text-white">
-            <p>Great! We've found your route from <strong>{$journey.start.formatted_address}</strong> to <strong>{$journey.destination.formatted_address}</strong>, which is <strong>{$route.distance.text}</strong>.</p>
+            <p>Great! We've found your route!<br>From: <strong>{Utilities.getFormattedAddress($locations.start.address_components)}</strong><br>To: <strong>{Utilities.getFormattedAddress($locations.destination.address_components)}</strong><br>Distance: <strong>{$route.distance.text}</strong>.</p>
           </div>
+
+          <label class="block mt-6">
+            <span class="block text-medium font-medium text-white">Departure date</span>
+            <input type="date" placeholder="When do you depart" class="block mt-1 py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-gray-500 focus:border-grey-500 border-warm-gray-300 rounded-md">
+          </label>
+
+          {#if $isReturn}
+            <label class="block mt-6">
+              <span class="block text-medium font-medium text-white">Return date</span>
+              <input type="date" placeholder="When do you depart" class="block mt-1 py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-gray-500 focus:border-grey-500 border-warm-gray-300 rounded-md">
+            </label>
+          {/if}
         {/if}
 
 

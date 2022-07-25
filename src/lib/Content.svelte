@@ -1,12 +1,12 @@
 <script>
 
-  import { mapsApiLoaded, journey, Utilities, route } from "./stores"
+  import { mapsApiLoaded, locations, Utilities, route } from "./stores"
 
   let mapContainer, map, ready, center,
   zoom = 8
 
-  $: if (mapContainer && $mapsApiLoaded && $journey.start && $journey.destination) {
-    center = { lat: $journey.start.geometry.location.lat(), lng: $journey.start.geometry.location.lng() }
+  $: if (mapContainer && $mapsApiLoaded && $locations.start && $locations.destination) {
+    center = { lat: $locations.start.geometry.location.lat(), lng: $locations.start.geometry.location.lng() }
     ready = true
     createMap()
     
@@ -20,7 +20,7 @@
 			  center
       }
     )
-    $route = await Utilities.createRoute(map, $journey.start, $journey.destination)
+    $route = await Utilities.createRoute(map, $locations.start, $locations.destination)
   }
 
 </script>

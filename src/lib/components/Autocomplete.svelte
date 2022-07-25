@@ -1,6 +1,7 @@
 <script>
 
   import { onMount } from 'svelte'
+  import { Utilities } from '../stores';
 
   export let label, location, placeholder 
 
@@ -12,28 +13,7 @@
   }
 
   $: if (location) {
-    value = ''
-    location.address_components.forEach(component => {
-      const type = component.types[0]
-      switch (type) {
-        case "street_number": {
-          value += component.long_name
-          break
-        }
-        case "route": {
-          value += ' ' + component.long_name
-          break
-        }
-        case "postal_town": {
-          value += ', ' + component.long_name
-          break
-        }
-        case "postal_code": {
-          value += ', ' + component.long_name
-          break
-        }
-      }      
-    })
+    value = Utilities.getFormattedAddress(location.address_components)
   }
 
   onMount( async () => {  
