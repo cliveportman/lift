@@ -7,8 +7,11 @@
 
   let ready = false
 
+  // Wait for everything to mount before loading the API
   onMount( async () => {
     Utilities.loadGoogleMapsApi()
+    // With hot reload, we could already have the API loaded but the page not have mounted.
+    // Use ready for this and test for both before displaing anything requiring the API.
     ready = true
   })
 
