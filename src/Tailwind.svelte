@@ -1,6 +1,6 @@
 <style global>
-  @tailwind utilities;
-  @tailwind components;
   @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
   @tailwind forms;
 </style>

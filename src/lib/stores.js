@@ -8,8 +8,8 @@ export const locations = writable({ start: null, destination: null })
 // Hold the route in a separate store to the journey. The routefinder service is called in response to
 // changes in the journey store, so if we write the route inside the journey store we trigger a loop.
 // Using a separate store avoids this.
-export const journey = writable({route: null, depart: null, return: null})
-export const isReturn = writable(false)
+export const journey = writable({route: null, isReturn: false, depart: null, return: null})
+export const uiStage = writable('locations')
 
 function test () {
   //return !!window.google
@@ -95,6 +95,11 @@ export const Utilities = {
     })
     return address
 
+  },
+
+  getFormattedDate: (dateToFormat) => {
+    let date = new Date(dateToFormat)
+    return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
   }
 
 }
