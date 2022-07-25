@@ -8,7 +8,7 @@ export const locations = writable({ start: null, destination: null })
 // Hold the route in a separate store to the journey. The routefinder service is called in response to
 // changes in the journey store, so if we write the route inside the journey store we trigger a loop.
 // Using a separate store avoids this.
-export const route = writable(null)
+export const journey = writable({route: null, depart: null, return: null})
 export const isReturn = writable(false)
 
 function test () {

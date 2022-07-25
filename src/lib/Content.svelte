@@ -1,6 +1,6 @@
 <script>
 
-  import { mapsApiLoaded, locations, Utilities, route } from "./stores"
+  import { mapsApiLoaded, locations, Utilities, journey } from "./stores"
 
   let mapContainer, map, ready, center,
   zoom = 8
@@ -20,7 +20,7 @@
 			  center
       }
     )
-    $route = await Utilities.createRoute(map, $locations.start, $locations.destination)
+    $journey.route = await Utilities.createRoute(map, $locations.start, $locations.destination)
   }
 
 </script>
